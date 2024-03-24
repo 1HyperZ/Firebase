@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import javax.management.RuntimeErrorException;
+
 public final class Database {
 
     private static final String COLLECTION_NAME = "users";
@@ -97,9 +99,9 @@ public final class Database {
         return !document.exists();
     }
 
-    public static List<LeaderboardEntry> getUserScoreList(){
+    public static List<LeaderboardEntry> getTop5ScoreList(){
         CollectionReference scoresCollection = db.collection(COLLECTION_NAME);
-        Query query = scoresCollection.orderBy("bestScore", Query.Direction.DESCENDING).limit(10);
+        Query query = scoresCollection.orderBy("bestScore", Query.Direction.DESCENDING).limit(5);
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
         List<LeaderboardEntry> leaderboard = new ArrayList<>();
         try {
